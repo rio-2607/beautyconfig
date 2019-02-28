@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beautyboss.slogen.config.resource.mapper.ConfigMapper">
+
+    <resultMap id="configResult" type="com.beautyboss.slogen.config.resource.entity.ConfigEntity">
+        <id column="id" property="id"/>
+        <result column="key" property="key"/>
+        <result column="description" property="desc"/>
+        <result column="type" property="type"/>
+        <result column="project_id" property="projectId"/>
+        <result column="group_id" property="groupId"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="modify_user_id" property="modifyUserId"/>
+        <result column="seq" property="seq"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="all_column">
+        id,`key`,description,type,project_id,group_id,create_user_id,modify_user_id,create_time,modify_time,seq
+    </sql>
+
+    <sql id="table_name">
+        config
+    </sql>
+
+    <select id="queryByProject" parameterType="java.lang.Long" resultMap="configResult">
+        SELECT
+        <include refid="all_column"/>
+        from
+        <include refid="table_name"/>
+        WHERE  project_id = #{projectId}
+    </select>
+
+    <select id="queryByKey" resultMap="configResult">
+        SELECT
+        <include refid="all_column"/>
+        from
+        <include refid="table_name"/>
+        WHERE  project_id = #{projectId}
+        AND
+        group_id = #{groupId}
+        AND
+        `key` = #{key}
+    </select>
+
+    <select id="queryBy" parameterType="java.lang.Long" resultMap="configResult">
+        SELECT
+        <include refid="all_column"/>
+        from
+        <include refid="table_name"/>
+        WHERE  project_id = #{projectId}
+        AND
+        group_id = #{groupId}
+    </select>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.beautyboss.slogen.config.resource.entity.ConfigEntity">
+        INSERT INTO
+        <include refid="table_name"/>
+        (`key`,description,type,project_id,group_id,create_user_id,modify_user_id,create_time,modify_time,seq)
+        VALUES
+        (#{key},#{desc},#{type},#{projectId},#{groupId},#{createUserId},#{createUserId},now(),now(),#{seq})
+    </insert>
+
+    <update id="modify" parameterType="com.beautyboss.slogen.config.resource.entity.ConfigEntity">
+        UPDATE
+        <include refid="table_name"/>
+        SET
+        description = #{desc},
+        type = #{type},
+        modify_user_id =#{modifyUserId},
+        modify_time = now(),
+        seq = #{seq}
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="deleteConfig" parameterType="java.lang.Long">
+        DELETE
+        from
+        <include refid="table_name"/>
+        WHERE
+        id = #{id}
+    </delete>
+
+    <select id="queryById" parameterType="java.lang.Long" resultMap="configResult">
+        SELECT
+        <include refid="all_column"/>
+        FROM
+        <include refid="table_name"/>
+        WHERE  id = #{id}
+    </select>
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.beautyboss.slogen.config.resource.mapper.EnvironmentMapper">
+
+    <resultMap id="environmentResult" type="com.beautyboss.slogen.config.resource.entity.EnvironmentEntity">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="type" property="type"/>
+        <result column="registry_type" property="registerType"/>
+        <result column="ips" property="ips"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="modify_user_id" property="modifyUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="all_column">
+        id,name,type,registry_type,ips,create_user_id,modify_user_id,create_time,modify_time
+    </sql>
+
+    <sql id="table_name">
+        config_environment
+    </sql>
+
+    <insert id="create" useGeneratedKeys="true" keyProperty="id" parameterType="com.beautyboss.slogen.config.resource.entity.EnvironmentEntity">
+        INSERT INTO
+        <include refid="table_name"/>
+        (name,type,registry_type,ips,create_user_id,modify_user_id,create_time,modify_time)
+        VALUES
+        (#{name},#{type},#{registerType},#{ips},#{createUserId},#{createUserId},now(),now())
+    </insert>
+
+    <select id="query" parameterType="java.lang.Integer" resultMap="environmentResult">
+        SELECT
+        <include refid="all_column"/>
+        from
+        <include refid="table_name"/>
+        WHERE  id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="environmentResult">
+        SELECT
+        <include refid="all_column"/>
+        from
+        <include refid="table_name"/>
+    </select>
+
+    <update id="modify" parameterType="com.beautyboss.slogen.config.resource.entity.EnvironmentEntity">
+        UPDATE
+        <include refid="table_name"/>
+        SET
+        registry_type = #{registerType},
+        ips = #{ips},
+        modify_user_id =#{modifyUserId},
+        modify_time = now()
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE
+        from
+        <include refid="table_name"/>
+        WHERE
+        id = #{id}
+    </delete>
+
+</mapper>
