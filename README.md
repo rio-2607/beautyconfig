@@ -36,7 +36,7 @@ appName是第一步填写的应用名。
 
 env代表环境，有dev,test,pre,prod。可以根据需要新增。
 
-config.engine表示底层使用的配置引擎，目前支持redis和zookeeper。
+config.engine表示底层使用的配置引擎，目前支持redis和zookeeper。 非必填，默认是redis。
 
 
 ### 4. 获取配置
