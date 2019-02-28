@@ -26,12 +26,18 @@
 ### 3. 在配置文件中添加下面两个配置
 
 config.app=appName
+
 config.env=dev
+
 config.engine=redis
 
+
 appName是第一步填写的应用名。
+
 env代表环境，有dev,test,pre,prod。可以根据需要新增。
-config.engine表示底层使用的配置引擎，目前支持redis和zookeeper
+
+config.engine表示底层使用的配置引擎，目前支持redis和zookeeper。
+
 
 ### 4. 获取配置
 
